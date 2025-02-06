@@ -1,0 +1,58 @@
+<div class="container">
+<div class="reg-main-wrapper">
+  <div class="reg-header-section">
+    <div class="col-12">
+      <div class="header-title text-center">
+        <h4>Register today and get access to the Store!</h4>
+        <span class="sub-title">It only takes a moment, but the benefits last forever. Here's how it works.</span>
+      </div>
+    </div>
+  </div>
+</div> 
+<div>
+  <div class="card" *ngIf="ncpdpduplicate">
+    <p-messages severity="info">
+      <ng-template pTemplate>
+          <div [innerHTML]="safeMessage"></div>
+        </ng-template>
+      </p-messages>        
+</div>
+</div>
+<div>
+  <div class="card" *ngIf="addressflag">
+    <p-messages 
+        [(value)]="errormessage" 
+        [enableService]="false" 
+        [closable]="false" />
+</div>
+</div>
+<div class="card box-shadow mgb-100">
+  <p-tabView class="form-body" [(activeIndex)]="activeIndex" (onChange)="onTabChange($event)">
+    <p-tabPanel header="Pharmacy Details">
+      <p-card class="">
+        <app-pharmacydetails (pharmacydetailsgroup)="pharmacydetailsgroupData($event)" (ncpdpflag)="ncpdpflagData($event)" [submittab]="submitflag" (addresserror)="addressflagevent($event)"></app-pharmacydetails>        
+      </p-card>
+    </p-tabPanel>
+       <p-tabPanel header="Pharmacy Employee(s)">
+        <p-card class="">
+          <app-pharmacist-information (activeindex)="activeindexData($event)" (pharmacistgroup)="pharmacistgroupData($event)" [submitpharmacist]="submitpharmacistflag"></app-pharmacist-information>        
+        </p-card>
+      </p-tabPanel>  
+     <p-tabPanel header="Store Hours">
+        <p-card class="storehours-section">
+          <app-storage-hours (activeindex)="activeindexData($event)" (storehoursgroup)="storehoursgroupData($event)"></app-storage-hours>
+      </p-card>      
+    </p-tabPanel>    
+      <p-tabPanel header="Service Details">
+        <p-card class="">
+          <app-service-details (servicedetailsgroup)="servicedetailsgroupData($event)" (activeindex)="activeindexData($event)"></app-service-details>
+        </p-card>
+      </p-tabPanel>
+    <!-- <p-tabPanel header="Insurance & Contract">
+      <p-card class="">
+        <app-insurance-contract></app-insurance-contract>
+      </p-card>
+    </p-tabPanel> -->
+  </p-tabView>
+</div>
+</div>

@@ -1,0 +1,136 @@
+<form [formGroup]="pharmacyDetailForm" (ngSubmit)="OnnextPage()">
+<div class="p-fluid grid formgrid">
+  <div class="field col-12 md:col-4">
+    <label for="legalName" class="required-label">Legal Name</label>
+    <input type="text" pInputText formControlName="legalName" id="legalName" />
+    <small class="p-error" *ngIf="pharmacyDetailForm.get('legalName')?.invalid && pharmacyDetailForm.get('legalName')?.touched && submittab">Legal Name is Required</small>
+</div>
+  <div class="field col-12 md:col-4">
+    <label for="businessName" class="required-label">Legal Business Name</label>
+    <input type="text" pInputText formControlName="legalBusinessName" id="businessName" />
+    <small class="p-error" *ngIf="pharmacyDetailForm.get('legalBusinessName')?.invalid && pharmacyDetailForm.get('legalBusinessName')?.touched && submittab">Legal Business Name is Required</small>
+  </div>
+  <div class="field col-12 md:col-4">
+    <label for="ncpdp" class="required-label">NCPDP</label>
+    <p-inputNumber inputId="ncpdp" formControlName="ncpdp" [useGrouping]="false"/>
+    <small class="p-error" *ngIf="pharmacyDetailForm.get('ncpdp')?.invalid && pharmacyDetailForm.get('ncpdp')?.touched && submittab">
+      <ng-container *ngIf="pharmacyDetailForm.get('ncpdp')?.errors?.['required']">NCPDP is Required</ng-container>
+      <ng-container *ngIf="pharmacyDetailForm.get('ncpdp')?.errors?.['pattern']">Invalid NCPDP Number. It must be 7 digits.</ng-container>
+    </small> 
+    </div>
+  <div class="field col-12 md:col-4">
+    <label for="npi" class="required-label">NPI</label>   
+    <p-inputNumber inputId="npi" formControlName="npi" [useGrouping]="false"/> 
+    <small class="p-error" *ngIf="pharmacyDetailForm.get('npi')?.invalid && pharmacyDetailForm.get('npi')?.touched && submittab">
+      <ng-container *ngIf="pharmacyDetailForm.get('npi')?.errors?.['required']">NPI is Required</ng-container>
+      <ng-container *ngIf="pharmacyDetailForm.get('npi')?.errors?.['pattern']">NPI must be exactly 10 digits</ng-container>
+    </small>  
+    </div>
+  <div class="field col-12 md:col-4">
+    <label for="deaNumber">DEA Number </label>
+    <input type="text" pInputText formControlName="deaNumber" id="deaNumber" />
+  </div>
+  <div class="field col-12 md:col-4">
+    <label for="deaExpDate">DEA EXP Date </label>
+    <p-calendar #deaExpCalendar [showIcon]="true" formControlName="deaExpDate" (onSelect)="onDateSelect($event, deaExpCalendar)" [showOnFocus]="false" inputId="deaExpDate"></p-calendar>
+  </div>
+  <div class="field col-12 md:col-4">
+    <label for="licenseNumber" class="required-label">State License Number </label>
+    <input type="text" pInputText formControlName="stateLicenseNumber" id="licenseNumber" />
+    <small class="p-error" *ngIf="pharmacyDetailForm.get('stateLicenseNumber')?.invalid && pharmacyDetailForm.get('stateLicenseNumber')?.touched && submittab">State License Number is Required</small>
+  </div>
+  <div class="field col-12 md:col-4">
+    <label for="licenseExpDate" class="required-label">State License Expiry Date </label>
+    <p-calendar #licenseExpDate [showIcon]="true" [showOnFocus]="false" formControlName="licenseExpiryDate" (onSelect)="onDateSelect($event, licenseExpDate)" inputId="licenseExpDate"></p-calendar>
+    <small class="p-error" *ngIf="pharmacyDetailForm.get('licenseExpiryDate')?.invalid && pharmacyDetailForm.get('licenseExpiryDate')?.touched && submittab">State License Expiry Date is Required</small>
+  </div>
+  <div class="field col-12 md:col-4">
+    <label for="medicareProviderId">Medicare Provider ID</label>
+    <input type="text" pInputText formControlName="medicareProviderId" id="medicareProviderId" />
+  </div>
+  <!-- <div class="field col-12 md:col-4">
+    <label for="taxId">Federal Tax ID </label>
+    <input type="text" pInputText formControlName="federalTaxId" id="taxId" />
+  </div> -->   
+  <div class="field col-12 md:col-4">
+    <label class="required-label" for="pmsSystem">PMS System </label>
+    <p-dropdown [options]="pms" placeholder="Select a PMS System" formControlName="pmsSystem" optionLabel="name" (onChange)="onDropdownChange($event)"></p-dropdown>
+    <small class="p-error" *ngIf="pharmacyDetailForm.get('pmsSystem')?.invalid && pharmacyDetailForm.get('pmsSystem')?.touched && submittab">PMS System is Required</small>
+  </div>
+  <div class="field col-12 md:col-4">
+    <label for="otherpmsSystem">Other PMS System (If not in list)</label>
+    <input type="text" pInputText formControlName="otherpmssystem" id="otherpmsSystem" />
+    <small class="p-error" *ngIf="pharmacyDetailForm.get('otherpmssystem')?.invalid && pharmacyDetailForm.get('otherpmssystem')?.touched && pharmacyDetailForm.value.pmsSystem?.name=='Other' && submittab">Other PMS System is Required</small>
+  </div>
+  <div class="field col-12 md:col-4">
+    <label for="storeNumber">Store Number </label>
+    <input type="text" pInputText formControlName="storeNumber" id="storeNumber" />
+  </div> 
+  <!-- <div class="field col-12 md:col-4">
+    <label for="pmsMethod">PMS Outbound Transfer Method </label>
+    <p-dropdown [options]="pmstransfermethods" placeholder="Select a PMS Outbound Transfer Method" formControlName="pmsOutboundMethod" optionLabel="name"></p-dropdown>
+  </div> -->
+  <div class="field col-12 md:col-4">
+    <label for="streetAddress" class="required-label">Location Address </label>
+    <input type="text" pInputText id="streetAddress" formControlName="streetAddress" (focus)="onFocus($event)"/>
+    <small class="p-error" *ngIf="pharmacyDetailForm.get('streetAddress')?.invalid && pharmacyDetailForm.get('streetAddress')?.touched && submittab">Location Address is Required</small>
+  </div>
+  <div class="field col-12 md:col-4">
+    <label for="city" class="required-label">City </label>
+    <input type="text" pInputText formControlName="city" id="city" />
+    <small class="p-error" *ngIf="pharmacyDetailForm.get('city')?.invalid && pharmacyDetailForm.get('city')?.touched && submittab">City is Required</small>
+  </div>
+  <div class="field col-12 md:col-4 flex">
+    <div class="col-12 md:col-6">
+      <label class="required-label" for="state">State </label>
+      <p-dropdown [options]="states" placeholder="Select a State" formControlName="state" optionLabel="name"></p-dropdown>
+      <small class="p-error" *ngIf="pharmacyDetailForm.get('state')?.invalid && pharmacyDetailForm.get('state')?.touched && submittab">State is Required</small>
+    </div>
+    <div class="col-12 md:col-6">
+      <label class="required-label" for="postalCode">Postal Code </label>
+      <input type="text" pInputText formControlName="postalCode" id="postalCode" />
+      <small class="p-error" *ngIf="pharmacyDetailForm.get('postalCode')?.invalid && pharmacyDetailForm.get('postalCode')?.touched && submittab">
+        <ng-container *ngIf="pharmacyDetailForm.get('postalCode')?.errors?.['required']">Postal Code is Required</ng-container>
+        <ng-container *ngIf="pharmacyDetailForm.get('postalCode')?.errors?.['pattern']">Invalid Postal Code. It must be 5 digits.</ng-container>
+      </small>
+     </div>
+  </div>
+  <div class="field col-12 md:col-4">
+    <label class="required-label" for="email">Email </label>
+    <input type="text" pInputText formControlName="email" id="email" />
+    <small class="p-error" *ngIf="pharmacyDetailForm.get('email')?.invalid && pharmacyDetailForm.get('email')?.touched && submittab">
+      <ng-container *ngIf="pharmacyDetailForm.get('email')?.errors?.['required']">Email is Required</ng-container>
+      <ng-container *ngIf="pharmacyDetailForm.get('email')?.errors?.['pattern']">Enter a Valid Email</ng-container>
+    </small>
+  </div>
+  <div class="field col-12 md:col-4">
+    <label class="required-label" for="phoneNumber">Phone Number </label>
+    
+    <p-inputMask formControlName="phoneNumber" id="phoneNumber"  mask="(999) 999-9999" placeholder="(999) 999-9999"/>
+    <small class="p-error" *ngIf="pharmacyDetailForm.get('phoneNumber')?.invalid && pharmacyDetailForm.get('phoneNumber')?.touched && submittab">
+      <ng-container *ngIf="pharmacyDetailForm.get('phoneNumber')?.errors?.['required']">Phone Number is Required</ng-container>
+      <ng-container *ngIf="pharmacyDetailForm.get('phoneNumber')?.errors?.['pattern']">Enter a Valid Phone Number</ng-container>
+    </small>
+    </div>
+  <div class="field col-12 md:col-4">
+    <label class="required-label" for="fax">Fax </label>
+    <p-inputMask formControlName="fax" id="fax"  mask="(999) 999-9999" placeholder="(999) 999-9999"/>
+    <small class="p-error" *ngIf="pharmacyDetailForm.get('fax')?.invalid && pharmacyDetailForm.get('fax')?.touched && submittab">
+      <ng-container *ngIf="pharmacyDetailForm.get('fax')?.errors?.['required']">Fax is Required</ng-container>
+      <ng-container *ngIf="pharmacyDetailForm.get('fax')?.errors?.['pattern']">Enter a Valid Fax Number</ng-container>
+    </small>
+    </div>
+  <div class="field col-12">
+    <label for="notes">Notes </label>
+    <textarea rows="5" cols="50" pInputTextarea formControlName="notes" id="notes"></textarea>
+    <label class="int-text"><span>Note:</span>1000 characters is the maximum allowed</label>
+  </div>
+  <div class="flex justify-end w-full">
+    <div class="tab-body-inner">
+      <div class="d-flex gap-2">      
+        <button pButton pRipple label="Next" class="p-button-success"></button>
+      </div>
+    </div>
+  </div>  
+</div>
+</form>

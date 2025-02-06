@@ -1,0 +1,98 @@
+
+ <div class="pharmacist-information">
+<form [formGroup]="pharmacistInformationForm">
+  <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center card-header">
+    <div class="card-title">
+      <h4>Pharmacy Employee(s)</h4>
+    </div>
+    <div class="ad-btn">
+      <button pButton pRipple label="Add New" class="p-button-success" (click)="addNewPharmacist()"></button>
+    </div>
+  </div>
+<div formArrayName="pharmacists" class="pharmacist-section">
+  <div *ngFor="let pharmacist of pharmacists.controls; let i = index" [formGroupName]="i">
+    <div class="p-phrmacist mb-2">
+      <div class="flex justify-content-between align-items-center mb-3">
+        <label for="pharmacist" class="font-bold">Employee Information</label>
+        <button *ngIf="i !== 0" pButton pRipple icon="pi pi-times" class="btn-cirle" (click)="removePharmacist(i)"></button>   </div>
+    <div class="p-fluid grid formgrid">
+      <!-- First Name Input -->
+      <div class="field col-12 md:col-4">
+        <label for="firstName" class="required-label">First Name</label>
+        <input type="text" pInputText id="firstName" formControlName="firstName" />
+        <small *ngIf="pharmacist.get('firstName')?.invalid && pharmacist.get('firstName')?.touched" class="p-error">
+          First Name is required.
+        </small>
+      </div>
+
+      <!-- Last Name Input -->
+      <div class="field col-12 md:col-4">
+        <label for="lastName" class="required-label">Last Name</label>
+        <input type="text" pInputText id="lastName" formControlName="lastName" />
+        <small *ngIf="pharmacist.get('lastName')?.invalid && pharmacist.get('lastName')?.touched" class="p-error">
+          Last Name is required.
+        </small>
+      </div>
+
+      <!-- Initials Input -->
+      <div class="field col-12 md:col-2">
+        <label for="initials" class="required-label">Initials</label>
+        <input type="text" pInputText id="initials" formControlName="initials" />
+        <small *ngIf="pharmacist.get('initials')?.invalid && pharmacist.get('initials')?.touched" class="p-error">
+          Initials are required.
+        </small>
+      </div>
+    <!-- Primary Contact Radio Buttons -->
+    <div class="field col-12 md:col-2">
+      <label for="isPharmacyContact" class="label">Primary Contact ?</label>
+      <br />
+      <p-checkbox
+        formControlName="isPharmacyContact"
+        inputId="isPharmacyContact"
+        binary="true"
+      ></p-checkbox>  
+     </div>
+ 
+      <!-- Email Input -->
+      <div class="field col-12 md:col-4">
+        <label for="email" class="required-label">Email</label>
+        <input type="email" pInputText id="email" formControlName="email" />
+        <small class="p-error" *ngIf="pharmacist.get('email')?.invalid && pharmacist.get('email')?.touched">
+          <ng-container *ngIf="pharmacist.get('email')?.errors?.['required']">Email is Required</ng-container>
+          <ng-container *ngIf="pharmacist.get('email')?.errors?.['pattern']">Enter a Valid Email</ng-container>
+        </small>
+      </div>
+
+      <!-- Phone Number Input -->
+      <div class="field col-12 md:col-4">
+        <label for="phoneNumber" class="required-label">Phone Number</label>
+        <p-inputMask formControlName="phoneNumber" id="phoneNumber"  mask="(999) 999-9999" placeholder="(999) 999-9999"/>
+        <small class="p-error" *ngIf="pharmacist.get('phoneNumber')?.invalid && pharmacist.get('phoneNumber')?.touched">
+          <ng-container *ngIf="pharmacist.get('phoneNumber')?.errors?.['required']">Phone Number is Required</ng-container>
+          <ng-container *ngIf="pharmacist.get('phoneNumber')?.errors?.['pattern']">Enter a Valid Phone Number</ng-container>
+        </small>
+      </div>
+
+      <!-- Role Input -->
+      <div class="field col-12 md:col-4">
+        <label for="role" class="required-label">Role</label>
+        <p-dropdown [options]="roles" formControlName="role" placeholder="Select a Role"></p-dropdown>
+        <small *ngIf="pharmacist.get('role')?.invalid && pharmacist.get('role')?.touched" class="p-error">
+          Role is required.
+        </small>
+      </div>
+    </div>
+  </div>
+  </div>
+  <div class="flex justify-end w-full mt-4">
+    <div class="tab-body-inner">
+      <div class="d-flex gap-2">
+        <button pButton pRipple label="Previous" (click)="OnPreviousPage()" class="btn-secondary"></button>
+        <button pButton pRipple label="Next"  class="p-button-success"  (click)="OnNextPage()"></button>
+      </div>
+    </div>
+  </div>
+</div>
+</form>
+</div>
+

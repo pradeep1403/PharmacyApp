@@ -1,0 +1,48 @@
+<div class="p-fluid grid formgrid">
+    <div class="field col-12 md:col-4">
+      <label for="psaoAffiliation">PSAO Affiliation</label>
+      <input type="text" pInputText id="psaoAffiliation" />
+    </div>
+    <div class="field col-12 md:col-4">
+      <label for="pbmContract">Mail order or Retail PBM contract</label>
+      <input type="text" pInputText id="pbmContract" />
+    </div>
+    <div class="field col-12 md:col-4">
+      <label for="abilityToBill">Ability to bill and fill all the rxs that DM sends</label>
+      <input type="text" pInputText id="abilityToBill" />
+    </div>
+    <div class="field col-12 md:col-4">
+      <label for="plansOrDrugs">Tell us about plans or drugs you can't fill</label>
+      <input type="text" pInputText id="plansOrDrugs" />
+    </div>
+    <div class="field col-12 md:col-4">
+      <label for="shippingWithPBM">Shipping with Retail PBM contract</label>
+      <p-dropdown [options]="shippbm" placeholder="Select a Retail PBM" optionLabel="name"></p-dropdown>
+    </div>
+    <div class="field col-12 md:col-4">
+      <label for="pbmContracts">PBM contracts have and not have</label>
+      <p-dropdown [options]="pbmcontract" placeholder="Select a PBM Contract" optionLabel="name"></p-dropdown>
+    </div>
+    <div class="field col-12 md:col-4">
+      <label for="dispensingFees">Dispensing fees and terms of contract</label>
+      <input type="text" pInputText id="dispensingFees" />
+    </div>
+    <div class="field col-12 md:col-4">
+      <label for="wholesalers">Wholesalers info</label>
+      <p-dropdown [options]="wholesalers" placeholder="Select a Wholesaler" optionLabel="name"></p-dropdown>
+    </div>
+    <div class="field col-12 md:col-4">
+      <label for="reportingTo">Reporting to</label>
+      <div *ngFor="let report of reporting; let i = index" class="field-checkbox">
+        <p-checkbox binary="true" name="group"></p-checkbox>
+        <label>{{ report.name }}</label>
+      </div>
+    </div>
+    <div class="field col-12 md:col-4">
+      <label for="shippingTo">Shipping to Ship for commercial and government insurance plans</label>
+      <div *ngFor="let insuranceplan of insuranceplans; let i = index" class="field-checkbox">
+        <p-checkbox binary="true" name="group"></p-checkbox>
+        <label>{{ insuranceplan.name }}</label>
+      </div>
+    </div>
+  </div>

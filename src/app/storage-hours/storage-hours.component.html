@@ -1,0 +1,120 @@
+<div class="storagehours-secttion">
+    <form [formGroup]="storeHoursForm">
+        <div class="grid">
+          <div class="col-12 md:col-6 pr-4">
+            <div class="str-header-main">
+                <div class="flex align-items-center">
+                    <div class="col-6 p-0">
+                        <div class="">
+                            <p-checkbox binary="true" (onChange)="onDaysSelectAll($event)"></p-checkbox>
+                            <label class="font-bold pl-2"> Days Open</label>
+                        </div>
+                    </div>
+                    <div class="col-6 p-0">
+                        <div class=" ">
+                            <div class="flex align-items-center">
+                                <div class="col"><label class="font-bold">Open Time (ET)</label></div>
+                                <div class="col"><label class="font-bold">Close Time (ET)</label></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="str-body-main">
+                <div class="" formArrayName="days">
+                    <div *ngFor="let day of daysArray.controls; let i = index" [formGroupName]="i" class="flex align-items-center">
+                    <div class="col-6 p-0">
+                            <p-checkbox binary="true" (onChange)="onDayChange($event,i)" formControlName="open" ></p-checkbox>
+                            <label class="flex-grow-1 pl-2">{{ days[i].name }}</label>
+                    </div>
+                    <div class="col-6 p-0">
+                        <div class=" ">
+                            <div class="flex align-items-center">
+                                <div class="col"><label class="font-bold">
+                                    <p-calendar formControlName="openTime" [iconDisplay]="'input'" [showIcon]="true" [timeOnly]="true" hourFormat="12" inputId="templatedisplay">
+                                        <ng-template pTemplate="inputicon" let-clickCallBack="clickCallBack">
+                                          <i class="pi pi-clock pointer-events-none" (click)="clickCallBack($event)"></i>
+                                        </ng-template>
+                                      </p-calendar>
+                                </label></div>
+                                <div class="col"><label class="font-bold">
+                                    <p-calendar formControlName="closeTime"  [iconDisplay]="'input'" [showIcon]="true" [timeOnly]="true" inputId="templatedisplay" hourFormat="12">
+                                        <ng-template pTemplate="inputicon" let-clickCallBack="clickCallBack">
+                                            <i class="pi pi-clock pointer-events-none" (click)="clickCallBack($event)"></i>
+                                          </ng-template>
+                                      </p-calendar>
+                                </label></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+            <!-- <div class="card mb-4">
+              <div class="flex align-items-center gap-3">
+                
+                <span class="flex-grow-1"></span>
+                <label class="font-bold">Open Time</label>
+                <label class="font-bold">Close Time</label>
+              </div>
+            </div> -->
+            <!-- <div class="card">
+              <div class="flex flex-column gap-3" formArrayName="days">
+                <div *ngFor="let day of daysArray.controls; let i = index" [formGroupName]="i" class="flex align-items-center gap-2">
+                  <p-checkbox binary="true" formControlName="open" (onChange)="onItemChange($event,i)"></p-checkbox>
+                  <label class="flex-grow-1">{{ days[i].name }}</label>
+                  <p-calendar formControlName="openTime" [iconDisplay]="'input'" [showIcon]="true" [timeOnly]="true" hourFormat="12" inputId="templatedisplay">
+                    <ng-template pTemplate="inputicon" let-clickCallBack="clickCallBack">
+                      <i class="pi pi-clock pointer-events-none" (click)="clickCallBack($event)"></i>
+                    </ng-template>
+                  </p-calendar>
+                  <p-calendar formControlName="closeTime"  [iconDisplay]="'input'" [showIcon]="true" [timeOnly]="true" inputId="templatedisplay" hourFormat="12">
+                    <ng-template pTemplate="inputicon" let-clickCallBack="clickCallBack">
+                        <i class="pi pi-clock pointer-events-none" (click)="clickCallBack($event)"></i>
+                      </ng-template>
+                  </p-calendar>
+                </div>
+              </div>
+            </div> -->
+            <div class="card mt-3">
+              <label for="alternateHours">Details About Alternate Hours</label>
+              <textarea id="alternateHours" formControlName="alternateHours" rows="3" cols="50" pInputTextarea></textarea>
+            </div>
+          </div>
+          <div class="col-12 md:col-6 pl-5 border-left-1">
+            <div class="card mb-1">
+              <div class="flex align-items-center">
+                <!-- <input type="text" class="search-field" pInputText formControlName="searchText" placeholder="Search  Here"> -->
+                <div class="col-12 md:col-12">
+                   <div class="card-title">
+                    <h4> Holidays List</h4>
+                   </div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="flex flex-column  custom-gap-1" formArrayName="holidays">
+                <div *ngFor="let holiday of holidaysArray.controls; let i = index" [formGroupName]="i" class="flex align-items-center ">
+                  <p-checkbox formControlName="selected" [binary]="true" (onChange)="onItemChange($event,i)"></p-checkbox>
+                  <label class="pl-2">{{ holidays[i].name }}</label>
+                </div>
+              </div>
+            </div>
+            <div class="card mt-3">
+              <label for="additionalHolidays">Additional Holidays Closed</label>
+              <textarea id="additionalHolidays" formControlName="additionalHolidays" rows="3" cols="50" pInputTextarea></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="tab-body-inner justify-end mt-4">
+          <div class="d-flex gap-2">
+            <button pButton pRipple label="Previous" (click)="OnPreviousPage()" class="btn-secondary"></button>
+            <button pButton pRipple label="Next" (click)="onNextClick()" class="p-button-success"></button>
+          </div>
+        </div>
+      </form>
+      <p-toast baseZIndex="10000" position="top-right" [sticky]="false"></p-toast>
+</div>
+
+
+  

@@ -1,0 +1,290 @@
+<form [formGroup]="serviceDetailsForm">
+<div class="p-fluid grid formgrid">
+  <div class="col-12 d-grid">
+    <label for="servicesoffered" class="required-label">Services Offered</label>
+    <small class="p-error" *ngIf="serviceDetailsForm.get('servicesoffered')?.invalid && serviceDetailsForm.get('servicesoffered')?.touched && submittab">Please select at least one Services Offered</small>
+    <div class="flex">
+      <div *ngFor="let service of services" class="field-checkbox col-auto p-3">
+         <!-- [checked]="serviceDetailsForm.value.servicesoffered.includes(service)" -->
+        <p-checkbox 
+            [formControl]="getCheckboxControl(service)"       
+            [label]="service.name" 
+            name="group"
+            [binary]="true"           
+            [value]="service" (onChange)="onServiceChange(service)"/>            
+    </div>   
+     
+    </div>
+  </div>
+  <div class="">
+    <div class="col-12">
+      <label class="font-semibold">Delivery Services Details </label>
+      <div class="flex align-items-center">
+        <label for="offerdelivery">Do you offer delivery</label>
+        <div *ngFor="let delivery of deliveryOptions" class="field-checkbox col-auto p-3">
+          <p-radioButton 
+              [inputId]="delivery.key" 
+              name="offerdelivery" 
+              [value]="delivery" 
+              formControlName="offerdelivery" (onChange)="onDeliveryTypeChange($event,'delivery')"/>
+          <label [for]="delivery.key" class="ml-2">
+              {{ delivery.name }}
+          </label>
+      </div>       
+    </div>
+  </div>
+</div>
+<div class="col-12 p-fluid grid formgrid align-items-end">
+    <div class="field col-12 md:col-4" *ngIf="serviceDetailsForm.value.offerdelivery?.name=='Yes'">
+      <label for="deliverydays" class="required-label">Delivery Days</label>
+      <p-multiSelect 
+        [options]="days" 
+        formControlName="deliverydays" 
+        optionLabel="name" 
+        placeholder="Select days"/>
+        <small class="p-error" *ngIf="serviceDetailsForm.get('deliverydays')?.invalid && serviceDetailsForm.get('deliverydays')?.touched && serviceDetailsForm.value.offerdelivery?.name=='Yes' && submittab ">Delivery Days is Required</small>
+    </div>
+    <div class="field col-12 md:col-4 d-flex" *ngIf="serviceDetailsForm.value.offerdelivery?.name=='Yes'">
+      <div class=" col-12 md:col-6">
+        <label for="starttime" class="required-label">Start Time</label>
+        <!-- <input type="text" formControlName="starttime" pInputText id="starttime" /> -->
+        <p-calendar [iconDisplay]="'input'" formControlName="starttime" [showIcon]="true" [timeOnly]="true" hourFormat="12" inputId="starttime">
+          <ng-template pTemplate="inputicon" let-clickCallBack="clickCallBack">
+              <i class="pi pi-clock pointer-events-none pointer-events-none" (click)="clickCallBack($event)"></i>
+          </ng-template>
+      </p-calendar>
+        <small class="p-error" *ngIf="serviceDetailsForm.get('starttime')?.invalid && serviceDetailsForm.get('starttime')?.touched && serviceDetailsForm.value.offerdelivery?.name=='Yes' && submittab">Start Time is Required</small>
+      </div>
+      <div class=" col-12 md:col-6">
+        <label for="endtime" class="required-label">End Time</label>
+        <!-- <input type="text" formControlName="endtime" pInputText id="endtime" /> -->
+        <p-calendar [iconDisplay]="'input'" formControlName="endtime" [showIcon]="true" [timeOnly]="true" hourFormat="12" inputId="endtime">
+          <ng-template pTemplate="inputicon" let-clickCallBack="clickCallBack">
+              <i class="pi pi-clock pointer-events-none pointer-events-none" (click)="clickCallBack($event)"></i>
+          </ng-template>
+      </p-calendar>
+        <small class="p-error" *ngIf="serviceDetailsForm.get('endtime')?.invalid && serviceDetailsForm.get('endtime')?.touched && serviceDetailsForm.value.offerdelivery?.name=='Yes' && submittab">End Time is Required</small>
+      </div>
+    </div>
+    <div class="field col-12 md:col-4" *ngIf="serviceDetailsForm.value.offerdelivery?.name=='Yes'">
+      <label for="deliveryBoundary" class="required-label">Pharmacy Delivery Boundary</label>
+      <input type="text" pInputText formControlName="pharmacyDeliveryBoundary" id="deliveryBoundary" />
+      <span class="text-xs int">i.e 5 miles around pharmac</span>
+      <small class="p-error  pharmacy-error" *ngIf="serviceDetailsForm.get('pharmacyDeliveryBoundary')?.invalid && serviceDetailsForm.get('pharmacyDeliveryBoundary')?.touched && serviceDetailsForm.value.offerdelivery?.name=='Yes' && submittab">Pharmacy Delivery Boundary is Required</small>
+    </div>
+    <div class="field col-12 md:col-4" *ngIf="serviceDetailsForm.value.offerdelivery?.name=='Yes'">
+      <label for="deliveryService">Delivery Service Method</label>
+      <p-dropdown [options]="deliveryService" formControlName="deliveryServiceMethod" placeholder="Select a Delivery Service" optionLabel="name"></p-dropdown>
+    </div>
+    <div class="field col-12 md:col-4" *ngIf="serviceDetailsForm.value.deliveryServiceMethod?.key=='DC'">
+      <label for="carriername">Third party carrier name</label>
+      <input type="text" formControlName="carriername" pInputText id="carriername" /> 
+      <!-- <small class="p-error" *ngIf="serviceDetailsForm.get('carriername')?.invalid && serviceDetailsForm.get('carriername')?.touched && serviceDetailsForm.value.deliveryServiceMethod?.key=='DC' && submittab">Pharmacy Delivery Boundary is Required</small>      -->
+    </div>
+      <div class="col-12">        
+        <div class="flex align-items-center">
+          <label for="deliveryServices">Do you want to use our Delivery Services?</label>
+          <div *ngFor="let delivery of deliveryOptions" class="field-checkbox col-auto p-3">
+            <p-radioButton 
+                [inputId]="delivery.key" 
+                name="deliveryServices" 
+                [value]="delivery" 
+                formControlName="deliveryServices" (onChange)="onDeliveryTypeChange($event,'services')"/>
+            <label [for]="delivery.key" class="ml-2">
+                {{ delivery.name }}
+            </label>            
+        </div>       
+      </div>
+    </div>
+    <div class="field col-12 md:col-12" *ngIf="serviceDetailsForm.value.deliveryServices?.name=='Yes'">
+      <label for="locationnotes" class="required-label">Pharmacy Location Notes</label>
+      <input type="text" pInputText formControlName="pharmacyLocationNotes" id="locationnotes" />
+      <div class="d-grid">
+      <span class="text-xs">Provide details on how to find your pharmacy for our details  i.e. located behind the gas station, on the conrner of main St & 1st St, ect.</span>
+      <small class="p-error" *ngIf="serviceDetailsForm.get('pharmacyLocationNotes')?.invalid && serviceDetailsForm.get('pharmacyLocationNotes')?.touched && serviceDetailsForm.value.deliveryServices?.name=='Yes' && submittab">Pharmacy Location Notes is Required</small>
+    </div>
+    </div>
+    <div class="col-12" *ngIf="showmailorder">
+      <div class="">
+        <label class="font-semibold">Mail Order Services Details </label>
+        <div class="flex align-items-center">
+          <label for="shipRxOrders">Will you agree to ship Rx orders for patients across your state?</label>
+          <div *ngFor="let delivery of deliveryOptions" class="field-checkbox col-auto p-3">
+            <p-radioButton 
+                [inputId]="delivery.key" 
+                name="shipRxOrders" 
+                [value]="delivery" 
+                formControlName="shipRxOrders" (onChange)="onDeliveryTypeChange($event,'shiping')"/>
+            <label [for]="delivery.key" class="ml-2">
+                {{ delivery.name }}
+            </label>
+        </div>      
+      </div>
+    </div>
+  
+  <div class="col-12" *ngIf="serviceDetailsForm.value.shipRxOrders?.name=='Yes'">
+    <label for="preferredShippingCarrier" class="required-label">Preferred Shipping Carrier</label>
+    <div class="flex">
+      <div *ngFor="let shiping of shipings" class="field-checkbox md:col-auto p-3 error-alignment">
+        <!-- [checked]="serviceDetailsForm.value.servicesoffered.includes(service)" -->
+          <!-- [formControl]="getCheckboxshipControl(shiping)"          -->
+          <p-checkbox 
+          [formControl]="getCheckboxshipControl(shiping)"       
+          [label]="shiping.name" 
+          name="group"
+          [binary]="true"           
+          [value]="shiping" (onChange)="onshipingChange(shiping)"/>             
+   </div>    
+    </div>
+    <div class="col-12"><small class="p-error" *ngIf="serviceDetailsForm.get('preferredShippingCarrier')?.invalid && serviceDetailsForm.get('preferredShippingCarrier')?.touched && serviceDetailsForm.value.shipRxOrders?.name=='Yes' && submittab">Please select at least one Preferred Shipping Carrier</small></div>
+  </div>
+</div>
+  <div class="col-12">
+    <div class="state-licence-ssection">
+      <label class="font-semibold">State/Federal Licenses </label>
+      <div class="flex align-items-center">
+        <div class="d-grid">
+        <label for="workersCompensation" class="required-label">Is your pharmacy a participant in the Worker's compensation program?</label>
+        <small class="p-error" *ngIf="serviceDetailsForm.get('workersCompensation')?.invalid && serviceDetailsForm.get('workersCompensation')?.touched && serviceDetailsForm.value.workersCompensation!=null && submittab">Is your pharmacy a participant in the Worker's compensation program is Required</small> 
+      </div>
+        <div *ngFor="let delivery of deliveryOptions" class="field-checkbox col-auto p-3">
+          <p-radioButton 
+              [inputId]="delivery.key" 
+              name="workersCompensation" 
+              [value]="delivery" 
+              formControlName="workersCompensation" />
+          <label [for]="delivery.key" class="ml-2">
+              {{ delivery.name }}
+          </label>          
+      </div> 
+      
+    </div>
+    <div class="flex align-items-center">
+      <div class="d-grid">
+      <label for="medicaidContracted" class="required-label">Is your pharmacy currently contracted to provide services under State Medicaid?</label>
+      <small class="p-error" *ngIf="serviceDetailsForm.get('medicaidContracted')?.invalid && serviceDetailsForm.get('medicaidContracted')?.touched && serviceDetailsForm.value.medicaidContracted!=null && submittab">Is your pharmacy currently contracted to provide services under State Medicaid is Required</small>
+    </div>
+      <div *ngFor="let delivery of deliveryOptions" class="field-checkbox col-auto p-3">
+        <p-radioButton 
+            [inputId]="delivery.key" 
+            name="medicaidContracted" 
+            [value]="delivery" 
+            formControlName="medicaidContracted" />
+        <label [for]="delivery.key" class="ml-2">
+            {{ delivery.name }}
+        </label>        
+    </div>  
+    
+  </div>
+  <div class="flex align-items-center">
+    <div class="d-grid">
+    <label for="medicareContracted" class="required-label">Is your pharmacy currently contracted to provide services under Medicare Part B?</label>
+    <small class="p-error" *ngIf="serviceDetailsForm.get('medicareContracted')?.invalid && serviceDetailsForm.get('medicareContracted')?.touched && serviceDetailsForm.value.medicaidContracted!=null && submittab">Is your pharmacy currently contracted to provide services under Medicare Part B is Required</small>
+  </div>
+    <div *ngFor="let delivery of deliveryOptions" class="field-checkbox col-auto p-3">
+      <p-radioButton 
+          [inputId]="delivery.key" 
+          name="medicareContracted" 
+          [value]="delivery" 
+          formControlName="medicareContracted" />
+      <label [for]="delivery.key" class="ml-2">
+          {{ delivery.name }}
+      </label>      
+  </div> 
+  
+</div>
+  </div>
+  <div class="p-fluid grid formgrid mb-3">
+  <div class="field col-12 md:col-4">
+    <label for="additionalLicenses">Conttract Restriction Details (If Any)</label>
+    <input type="text" pInputText formControlName="contractRestrictionDetails" id="additionalLicenses" />
+  </div>
+  <div class="field col-12 md:col-4">
+    <label for="pharmacyAccreditations" class="required-label">Pharmacy Accreditation</label>    
+    <p-multiSelect 
+    [options]="accreditations" 
+    formControlName="pharmacyAccreditations" 
+    optionLabel="name" 
+    placeholder="Select a Pharmacy Accreditation"/>
+    <small class="p-error" *ngIf="serviceDetailsForm.get('pharmacyAccreditations')?.invalid && serviceDetailsForm.get('pharmacyAccreditations')?.touched && submittab">Pharmacy Accreditation is Required</small>
+  </div>
+  <div class="field col-12 md:col-4">
+    <label for="gpo">Group Purchasing Organization</label>    
+    <p-multiSelect 
+    [options]="gpo" 
+    formControlName="gpo" 
+    optionLabel="name" 
+    placeholder="Select a Group Purchasing Organization"/>
+  </div>
+</div>  
+     <div class="additionalstate-section ">
+     <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center card-header">
+      <div class="card-title">
+        <h4>Additional State Licenses</h4>
+      </div>
+      <div class="ad-btn">
+        <button pButton pRipple label="Add New" class="p-button-success" (click)="addNewLicense()">
+          <span class="p-button-label">Add New</span>
+        </button>
+      </div>
+    </div>   
+    <div formArrayName="additionalLicenses">
+      <div *ngFor="let license of additionalLicenses.controls; let i = index" [formGroupName]="i"  class="p-phrmacist mb-2">
+        <div class="p-fluid grid formgrid">
+          
+          <!-- Remove Button -->
+          <div class="col-12 text-right">
+            <button pButton pRipple icon="pi pi-times" class="btn-cirle" (click)="removeLicense(i)">
+              
+            </button>
+          </div>
+          <!-- State Dropdown -->
+          <div class="field col-12 md:col-4">
+            <label for="state">State</label>
+            <p-dropdown [options]="states" placeholder="Select" optionLabel="name" formControlName="state"></p-dropdown>
+          </div>
+
+          <!-- License Number Input -->
+          <div class="field col-12 md:col-4">
+            <label for="licenseNumber">State License Number</label>
+            <input type="text" pInputText id="licenseNumber" formControlName="licenseNumber" />
+          </div>
+
+          <!-- Expiry Date Picker -->
+          <div class="field col-12 md:col-4">
+            <label for="expiryDate">Expiry Date</label>
+            <p-calendar #expiryDate [showIcon]="true"  [showOnFocus]="false" formControlName="expiryDate" (onSelect)="onDateSelect($event, expiryDate)"></p-calendar>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    </div>
+    </div>
+</div>
+    <div class="col-12 d-flex justify-content-between align-items-center mt-4">
+      <div class="md:col-6 p-0">
+        <div class="col-12 p-0">
+          <div class="flex align-items-center">
+            <div class="field-checkbox col-auto pr-2">
+              <p-checkbox formControlName="terms"  
+              name="group"
+              [binary]="true" />  
+          </div>  
+          <small class="" ></small> 
+            I agree to the <a href="#" (click)="openTermsAndConditions($event)" class="pl-1"> Terms and Conditions</a>
+          </div>
+        </div>
+      </div>
+      <div class="md:col-6">
+        <div class="flex justify-end w-full">
+          <div class="d-flex gap-2">
+            <button pButton pRipple label="Previous" (click)="OnPreviousPage()" class="btn-secondary"></button>
+            <button pButton pRipple label="Submit" [disabled]="!serviceDetailsForm.get('terms')?.value" class="p-button-success" (click)="OnnextPage()"></button>
+          </div>
+        </div>
+      </div>
+     
+    </div>
+  </div>
+</form>

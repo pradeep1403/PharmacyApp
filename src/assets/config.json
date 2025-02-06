@@ -1,0 +1,8 @@
+{
+    "apiBaseUrl": "https://localhost:56370/api/Pharmacy",
+    "apiAuth0BaseUrl": "https://localhost:56370/api/auth",
+    "Auth0Domain":"dev-aok32oow4wkskgqk.us.auth0.com",
+    "Auth0client_id":"iAyZvuRXXoIie3NlxEIfDyNVfSAN4WfF",
+    "Auth0_redirect_uri":"https://b9f3-103-175-75-195.ngrok-free.app/login",
+    "Auth0LogOut_URL":"https://b9f3-103-175-75-195.ngrok-free.app"
+}
