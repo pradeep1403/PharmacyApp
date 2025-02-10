@@ -33,7 +33,7 @@ export class LoginComponent {
             this.auth0Service.storeExpiresIn(240000)//(response.expires_in);
             this.auth0Service.storeRefreshToken(response.refresh_token);
             await this.getUserProfile();
-            this.router.navigate(['/dashboard']); // Redirect to dashboard
+            
         },
         error: (error) => {
           console.error('Error:', error)
@@ -55,6 +55,7 @@ async getUserProfile(){
             this.router.navigate(['/change-password']);
           }
           this.auth0Service.storeUserProfile(JSON.stringify(response));
+          this.router.navigate(['/dashboard']); // Redirect to dashboard
         }
         else{
           this.auth0Service.clearSession();
