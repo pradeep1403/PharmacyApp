@@ -51,7 +51,7 @@ async getUserProfile(){
       next: (response) => {
         debugger;
         if(response.email){ 
-          if(response.PasswordChanges == null || response.PasswordChanges == false){
+          if(response.passwordChanges == null || response.passwordChanges == false){
             this.router.navigate(['/change-password']);
           }
           this.auth0Service.storeUserProfile(JSON.stringify(response));
