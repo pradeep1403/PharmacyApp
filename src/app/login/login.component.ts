@@ -26,13 +26,13 @@ export class LoginComponent {
     });
     if(code){
       this.auth0Service.getTokenData(code).subscribe({
-        next: (response) => {
+        next: async (response) => {
           debugger;
           const token = response.id_token;
             this.auth0Service.storeToken(token);
             this.auth0Service.storeExpiresIn(240000)//(response.expires_in);
             this.auth0Service.storeRefreshToken(response.refresh_token);
-            this.getUserProfile();
+            await this.getUserProfile();
             this.router.navigate(['/dashboard']); // Redirect to dashboard
         },
         error: (error) => {
@@ -46,10 +46,14 @@ export class LoginComponent {
 redirectToAuth0(){
   window.location.href = this.auth0Service.generateAuth0LoginURL();
 }
-getUserProfile(){
+async getUserProfile(){
     this.userProfileService.getUserProfile().subscribe({
       next: (response) => {
+        debugger;
         if(response.email){ 
+          if(response.PasswordChanges == null || response.PasswordChanges == false){
+            this.router.navigate(['/change-password']);
+          }
           this.auth0Service.storeUserProfile(JSON.stringify(response));
         }
         else{
