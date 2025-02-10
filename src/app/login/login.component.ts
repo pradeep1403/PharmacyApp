@@ -53,6 +53,7 @@ async getUserProfile(){
         if(response.email){ 
           if(response.passwordChanges == null || response.passwordChanges == false){
             this.router.navigate(['/change-password']);
+            return;
           }
           this.auth0Service.storeUserProfile(JSON.stringify(response));
           this.router.navigate(['/dashboard']); // Redirect to dashboard
