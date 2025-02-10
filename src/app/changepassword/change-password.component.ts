@@ -50,11 +50,12 @@ export class ChangePasswordComponent {
 }
 changePassword(){
   let userProfile  = this.auth0Service.getUserProfileFromStorage();
-  let email = userProfile ? JSON.parse(userProfile).email:this.auth0Service.getemail();
-  if(email=="" || email==null || email==undefined){
+  let email = userProfile ? JSON.parse(userProfile).email: this.auth0Service.getemail();
+  if(email=="" || email==null ){
     this.changePasswordResponse = "Your Profile is Empty";
+    return;
   }
-  this.auth0Service.changePassword( userProfile ? JSON.parse(userProfile).email:"").subscribe({
+  this.auth0Service.changePassword( email).subscribe({
     next: (response) => {
       debugger;
       if(response){ 
