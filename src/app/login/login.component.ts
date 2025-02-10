@@ -52,6 +52,7 @@ async getUserProfile(){
         debugger;
         if(response.email){ 
           if(response.passwordChanges == null || response.passwordChanges == false){
+            this.auth0Service.storeemail(response.email);
             this.auth0Service.clearSession();
             this.router.navigate(['/change-password']);
             return;

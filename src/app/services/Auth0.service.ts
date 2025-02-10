@@ -87,11 +87,14 @@ changePassword(emailId:string): Observable<any> {
  let  params = new HttpParams().set('emailId', emailId);
   return this.http.get<any>(this.getConfigValue("apiAuth0BaseUrl") + '/change-password', {params});
 }
-storeChangePassword(code: string): void {
-  localStorage.setItem('passwordReset', code);
+storeemail(code: string): void {
+  localStorage.setItem('email', code);
 }
 resetChangePassword(){
   localStorage.removeItem('passwordReset');
+}
+getemail(): string | null {
+  return localStorage.getItem('email');
 }
 
 }

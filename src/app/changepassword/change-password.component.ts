@@ -50,8 +50,8 @@ export class ChangePasswordComponent {
 }
 changePassword(){
   let userProfile  = this.auth0Service.getUserProfileFromStorage();
-  let email = userProfile ? JSON.parse(userProfile).email:"";
-  if(email==""){
+  let email = userProfile ? JSON.parse(userProfile).email:this.auth0Service.getemail();
+  if(email=="" || email==null || email==undefined){
     this.changePasswordResponse = "Your Profile is Empty";
   }
   this.auth0Service.changePassword( userProfile ? JSON.parse(userProfile).email:"").subscribe({
