@@ -52,24 +52,29 @@ redirectToAuth0(){
   window.location.href = this.auth0Service.generateAuth0LoginURL();
 }
 async getUserProfile(){
+    this.loaderService.show();
     this.userProfileService.getUserProfile().subscribe({
       next: (response) => {
         if(response.email){ 
           if(response.passwordChanges == null || response.passwordChanges == false){
             this.auth0Service.clearSession();
             this.auth0Service.storeemail(response.email);
+            this.loaderService.hide();
             this.router.navigate(['/change-password']);
             return;
           }
           this.auth0Service.storeUserProfile(JSON.stringify(response));
+          this.loaderService.hide();
           this.router.navigate(['/dashboard']); // Redirect to dashboard
         }
         else{
+          this.loaderService.hide();
           this.auth0Service.clearSession();
         }
       },
       error: (error) => {
           console.error('Error:', error)
+          this.loaderService.hide();
 
         }
   })
