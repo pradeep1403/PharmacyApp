@@ -27,17 +27,13 @@ export class LoginComponent {
       // You would typically send the code to your server to exchange for tokens
     });
     if(code){
-      this.loaderService.show();
       this.auth0Service.getTokenData(code).subscribe({
         next: async (response) => {
-          this.loaderService.show();
           const token = response.id_token;
             this.auth0Service.storeToken(token);
             this.auth0Service.storeExpiresIn(240000)//(response.expires_in);
             this.auth0Service.storeRefreshToken(response.refresh_token);
             await this.getUserProfile();
-            this.loaderService.hide();
-            
         },
         error: (error) => {
           console.error('Error:', error)
