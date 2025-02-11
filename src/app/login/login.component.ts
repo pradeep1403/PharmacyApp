@@ -5,6 +5,8 @@ import { ButtonModule } from 'primeng/button';
 import { Auth0Service } from '../services/Auth0.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import {UserProfileService} from './../services/userProfile.service';
+import { LoaderService } from '../services/loaderService';
+
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -13,7 +15,7 @@ import {UserProfileService} from './../services/userProfile.service';
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
-  constructor(private auth0Service: Auth0Service, private route: ActivatedRoute, private router: Router, private userProfileService: UserProfileService) {
+  constructor(private auth0Service: Auth0Service, private route: ActivatedRoute, private router: Router, private userProfileService: UserProfileService, private loaderService: LoaderService) {
   }
   ngOnInit() {
     // Capture the URL parameters (code, state, etc.)
@@ -25,14 +27,16 @@ export class LoginComponent {
       // You would typically send the code to your server to exchange for tokens
     });
     if(code){
+      this.loaderService.show();
       this.auth0Service.getTokenData(code).subscribe({
         next: async (response) => {
-          debugger;
+          this.loaderService.show();
           const token = response.id_token;
             this.auth0Service.storeToken(token);
             this.auth0Service.storeExpiresIn(240000)//(response.expires_in);
             this.auth0Service.storeRefreshToken(response.refresh_token);
             await this.getUserProfile();
+            this.loaderService.hide();
             
         },
         error: (error) => {
@@ -40,6 +44,7 @@ export class LoginComponent {
 
         },
     });
+    this.loaderService.hide();
   }
   
 }
