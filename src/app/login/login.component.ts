@@ -49,7 +49,6 @@ redirectToAuth0(){
 async getUserProfile(){
     this.userProfileService.getUserProfile().subscribe({
       next: (response) => {
-        debugger;
         if(response.email){ 
           if(response.passwordChanges == null || response.passwordChanges == false){
             this.auth0Service.clearSession();

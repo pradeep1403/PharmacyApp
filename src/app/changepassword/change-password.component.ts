@@ -57,7 +57,6 @@ changePassword(){
   }
   this.auth0Service.changePassword( email).subscribe({
     next: (response) => {
-      debugger;
       if(response){ 
         this.changePasswordResponse = response.message;
         this.auth0Service.clearSession();
