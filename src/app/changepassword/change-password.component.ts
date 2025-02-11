@@ -7,6 +7,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import {UserProfileService} from './../services/userProfile.service';
 import { UserProfile } from '../models/Auth0-details';
 import { CommonModule } from '@angular/common';
+import { LoaderService } from '../services/loaderService';
 
 @Component({
   selector: 'app-change-password',
@@ -18,7 +19,7 @@ import { CommonModule } from '@angular/common';
 export class ChangePasswordComponent {
   changePasswordResponse:string="";
   isDisabled:boolean = false;
-  constructor(private auth0Service: Auth0Service, private route: ActivatedRoute, private router: Router, private userProfileService: UserProfileService) {
+  constructor(private auth0Service: Auth0Service, private route: ActivatedRoute, private router: Router, private userProfileService: UserProfileService,private loaderService: LoaderService) {
   }
   ngOnInit() {
     // Capture the URL parameters (code, state, etc.)
@@ -49,9 +50,11 @@ export class ChangePasswordComponent {
   
 }
 changePassword(){
+  this.loaderService.show();
   let userProfile  = this.auth0Service.getUserProfileFromStorage();
   let email = userProfile ? JSON.parse(userProfile).email: this.auth0Service.getemail();
   if(email=="" || email==null ){
+    this.loaderService.hide();
     this.changePasswordResponse = "Your Profile is Empty";
     return;
   }
@@ -61,12 +64,15 @@ changePassword(){
         this.changePasswordResponse = response.message;
         this.auth0Service.clearSession();
         this.isDisabled = true;
+        this.loaderService.hide();
       }
       else{
         this.auth0Service.clearSession();
+        this.loaderService.hide();
       }
     },
     error: (error) => {
+        this.loaderService.hide();
         console.error('Error:', error)
 
       }
