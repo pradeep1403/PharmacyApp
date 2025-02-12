@@ -1,6 +1,6 @@
 {
-    "apiBaseUrl": "http://localhost:56370/api/Pharmacy",
-    "apiAuth0BaseUrl": "http://localhost:56370/api/auth",
+    "apiBaseUrl": "https://dev-pharmacy-api.wellgisticshealth.com/api/Pharmacy",
+    "apiAuth0BaseUrl": "https://dev-pharmacy-api.wellgisticshealth.com/api/auth",
     "Auth0Domain":"dev-7s31eqjlbkj06oct.us.auth0.com",
     "Auth0client_id":"JGhiqZqrAQPx6cAbvdE6tX1CtmbODw9v",
     "Auth0_redirect_uri":"https://pharmacy-app-eta.vercel.app/login",
